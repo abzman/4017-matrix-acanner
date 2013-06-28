@@ -12,29 +12,25 @@
 
 #include <Arduino.h>
 
-int reset = 48;
 int clock = 49;
 int input = 50;
 
 void setup() {
   Serial.begin(9600);
   
-  pinMode (reset, OUTPUT);
   pinMode (clock, OUTPUT);
   pinMode (input, INPUT);
   digitalWrite(clock,0);
-  
-  digitalWrite(reset,1);
-  delay(1);
-  digitalWrite(reset,0);
+  delay(10);
 }
 
 void loop() 
 {
-  digitalWrite(reset,1);
-  delay(1);
-  digitalWrite(reset,0);
+  
   byte data_in = shiftIn(input,clock,LSBFIRST);
+  
+  clk();
+  clk();
   char result = ' '; // need to define something ...
                     switch (data_in)
                     {
@@ -79,4 +75,10 @@ void loop()
                     //Serial.println(data_in,HEX);
                     Serial.println(result);
                 delay(10);
+}
+void clk()
+{
+    digitalWrite(clock,1);
+  delay(1);
+  digitalWrite(clock,0);
 }
